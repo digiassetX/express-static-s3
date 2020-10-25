@@ -122,6 +122,21 @@ class ExpressStaticS3 {
         }
     }
 
+    /**
+     * Function to allow custom execution of templates error codes
+     * If none exists will have just     Error ###
+     * @param req
+     * @param res
+     * @param {int} errorCode
+     */
+    error(req,res,errorCode) {
+        let me=this;
+        me.ready().then(()=> {
+            let message = me._cache["error/" + errorCode + ".html"] || "Error " + errorCode;
+            res.status(errorCode).end(message);
+        });
+    }
+
     get express() {
         let me=this;
         let cutLength=this._prefix.length+1;
@@ -137,7 +152,7 @@ class ExpressStaticS3 {
             //look up file
             me.ready().then(()=> {
                 if (me._cache[path] === undefined) {
-                    if (me._cache["error/404.html"] === undefined) next();  //if no error file then go to next
+                    if (me._cache["error/404.html"] === undefined) next(404);  //if no error file then go to next
                     res.status(404).end(me._cache["error/404.html"]);
                 } else {
                     res.status(200).end(me._cache[path]);

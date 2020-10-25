@@ -1,6 +1,6 @@
 {
   "name": "express-static-s3",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Loads a web page from s3 bucket and serves it from RAM",
   "main": "index.js",
   "scripts": {
